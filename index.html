@@ -6,26 +6,35 @@
   <title>Redirecting...</title>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const universalLink = 'https://portal-uat.prudential.com.vn/customer-portal-revamp/login?campaignType=adoption';
 
+      const universalLink = 'https://portal-uat.prudential.com.vn/customer-portal-revamp/login?campaignType=adoption';
       const playStoreLink = 'https://play.google.com/store/apps/details?id=com.example.myapp';
 
-      // Tạo một thẻ <a> để mở deeplink
-      const link = document.createElement('a');
-      link.href = universalLink;
-      link.style.display = 'none'; // Ẩn thẻ <a> để nó không hiển thị cho người dùng
-      document.body.appendChild(link);
+      // Tạo một biến để kiểm tra xem ứng dụng có được mở không
+      let appOpened = false;
 
-      // Kích hoạt thẻ <a> để mở deeplink
-      link.click();
-
-      // Kiểm tra trạng thái sau một khoảng thời gian và điều hướng đến Play Store nếu cần
-      setTimeout(() => {
-        // Kiểm tra xem trang hiện tại có phải là deeplink không
+      // Tạo một sự kiện để xác định khi trang bị ẩn đi
+      document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
-          window.location.href = playStoreLink;
+          appOpened = true;
         }
-      }, 2000); // Điều chỉnh thời gian chờ nếu cần
+      });
+
+      // Thử mở liên kết universal
+      const openUniversalLink = () => {
+        // Thay đổi location.href để mở liên kết
+        window.location = universalLink;
+
+        // Sử dụng setTimeout để chuyển hướng đến Play Store nếu không mở được ứng dụng
+        setTimeout(() => {
+          if (!appOpened) {
+            window.location.href = playStoreLink;
+          }
+        }, 2000); // Điều chỉnh thời gian chờ nếu cần
+      };
+
+      // Gọi hàm để mở liên kết
+      openUniversalLink();
     });
   </script>
 </head>
