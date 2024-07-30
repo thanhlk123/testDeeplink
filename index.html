@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirecting...</title>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const universalLink = 'https://example.com/path/to/resource';
+      const playStoreLink = 'https://play.google.com/store/apps/details?id=com.example.myapp';
+
+      let appOpened = false;
+
+      // Tạo và thêm iframe vào body
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none'; // Ẩn iframe
+      iframe.src = universalLink;
+      document.body.appendChild(iframe);
+
+      // Kiểm tra trạng thái ứng dụng
+      setTimeout(() => {
+        if (!appOpened) {
+          window.location.href = playStoreLink;
+        }
+      }, 2000); // Điều chỉnh thời gian chờ nếu cần
+
+      // Xử lý khi tài liệu bị ẩn (giả định ứng dụng đã được mở)
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          appOpened = true;
+        }
+      });
+    });
+  </script>
+</head>
+<body>
+  <h2>Redirecting...</h2>
+  <p>If you are not redirected, <a href="https://play.google.com/store/apps/details?id=com.example.myapp">click here to go to Play Store</a>.</p>
+</body>
+</html>
